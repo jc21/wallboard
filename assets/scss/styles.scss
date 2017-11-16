@@ -1,0 +1,9 @@
+// Libraries
+$fa-font-path: 'dist/assets/fonts/font-awesome';
+$bootstrap-font-path: 'dist/assets/fonts/bootstrap';
+
+@import 'bourbon';
+@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import 'fontawesome/font-awesome';
+
+@import 'theme';

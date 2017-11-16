@@ -1,0 +1,75 @@
+$background-color: #263238;
+$foreground-color: #fff;
+
+body {
+  background-color: $background-color;
+  color: $foreground-color;
+  margin: 10px;
+  overflow: hidden;
+}
+
+.clock {
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+
+  .hm {
+    font-size: 21vh;
+    color: #56C7FF;
+  }
+
+  .sec {
+    font-size: 14vh;
+    color: #F3F99D;
+  }
+
+  .name {
+    font-family: 'Lato', sans-serif;
+    font-size: 10vh;
+    color: #F1F1F0;
+    margin-top: -8vh;
+    margin-bottom: 2vh;
+  }
+
+  .meridian-am .hm {
+    color: #9AEDFE;
+  }
+
+  .meridian-pm .hm {
+    color: #57C7FF;
+  }
+
+  .workhours .hm {
+    color: #5AF78D;
+  }
+}
+
+
+.vtunes {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+
+  .track {
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    font-size: 8vh;
+    color: #707f87;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 85%;
+    margin: 0 auto;
+  }
+
+  .progressbar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 8px;
+    background-color: #FF5C56;
+    -webkit-transition: width 1.9s; /* For Safari 3.1 to 6.0 */
+    transition: width 1.9s;
+  }
+}

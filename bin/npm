@@ -1,0 +1,31 @@
+#!/bin/bash -e
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Code path
+if hash realpath 2>/dev/null; then
+    export CODEBASE=$(realpath $SCRIPT_DIR/..)
+elif hash grealpath 2>/dev/null; then
+    export CODEBASE=$(grealpath $SCRIPT_DIR/..)
+else
+    export CODEBASE=$(readlink -e $SCRIPT_DIR/..)
+fi
+
+if [ -z "$CODEBASE" ]; then
+    echo "Unable to determine absolute codebase directory"
+    exit 1
+fi
+
+sudo docker run \
+    -v "$CODEBASE:/srv/app" \
+    -v "$HOME/.npm:/root/.npm" \
+    -v "$HOME/.npmrc:/root/.npmrc" \
+    -e DEBUG=* \
+    -v "$HOME:$HOME" \
+    --rm=true \
+    -t -i \
+    -w /srv/app \
+    vision6/node \
+    npm $@
+
+exit $?
