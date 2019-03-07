@@ -1,22 +1,28 @@
-const webpack = require('webpack');
+const path              = require('path');
+const webpack           = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Visualizer        = require('webpack-visualizer-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const getTime           = require('date-fns/get_time');
+const PACKAGE           = require('./package.json');
 
 module.exports = {
-    context: __dirname + '/assets/js',
-    entry: './main.js',
-    output: {
-        filename:          'main.js',
-        path:              __dirname + '/web/dist/assets/js',
-        publicPath:        '/dist/assets/js',
+    context: path.resolve(__dirname, 'src'),
+    entry:   './js/main.js',
+    output:  {
+        path:              path.resolve(__dirname, 'dist'),
+        publicPath:        '/',
+        filename:          'js/[name].bundle.js',
+        chunkFilename:     'js/[name].bundle.[id].js',
         sourceMapFilename: 'dnBOUAwY76qx3MmZxtHn.map'
     },
-    module: {
-        loaders: [
+    module:  {
+        rules: [
             {
                 test:    /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                loader:  'babel', // 'babel-loader' is also a valid name to reference
-                query: {
-                    presets: ['es2015']
+                exclude: /node_modules/,
+                use:     {
+                    loader: 'babel-loader'
                 }
             },
             {
@@ -24,28 +30,59 @@ module.exports = {
                 loader: 'ejs-loader'
             },
             {
-                test: /\.json$/,
-                loader: 'json-loader'
+                test: /\.s?css$/,
+                use:  [
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader:  'css-loader',
+                        options: {
+                            modules: false
+                        }
+                    },
+                    {
+                        loader: 'sass-loader'
+                    }
+                ]
             }
         ]
     },
     plugins: [
-        new webpack.optimize.LimitChunkCountPlugin({
-            maxChunks: 1
-        }),
         new webpack.ProvidePlugin({
             $:      'jquery',
             jQuery: 'jquery',
             _:      'underscore'
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                unsafe:        true,
-                drop_console:  false,
-                drop_debugger: false,
-                screw_ie8:     true,
-                warnings:      false
+        new Visualizer({
+            filename: '../webpack_stats.html'
+        }),
+        new HtmlWebpackPlugin({
+            template:           'html/index.ejs',
+            filename:           'index.html',
+            inject:             false,
+            minify:             false,
+            chunksSortMode:     'none',
+            templateParameters: {
+                version:    PACKAGE.version,
+                build_time: getTime(new Date())
             }
-        })
+        }),
+        new HtmlWebpackPlugin({
+            template:           'html/version.ejs',
+            filename:           'version.json',
+            inject:             false,
+            minify:             false,
+            chunksSortMode:     'none',
+            templateParameters: {
+                version:    PACKAGE.version,
+                build_time: getTime(new Date())
+            }
+        }),
+        new CopyWebpackPlugin([{
+            from:   'images',
+            to:     'images',
+            toType: 'dir'
+        }])
     ]
 };

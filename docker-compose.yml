@@ -1,21 +1,10 @@
-version: "2"
+version: "3"
 services:
-  app:
+  web:
     image: nginx
     volumes:
        - ./config/nginx:/etc/nginx/conf.d
-       - .:/srv/app
+       - ./dist:/srv/app
     command: "nginx -g 'daemon off;'"
     ports:
-      - "80:80"
-    logging:
-      driver: "json-file"
-  gulp:
-    image: jc21/node
-    environment:
-      - NODE_ENV=development
-    volumes:
-      - .:/srv/app
-    command: "gulp"
-    logging:
-      driver: "json-file"
+      - "2424:80"

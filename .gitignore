@@ -3,3 +3,8 @@ node_modules
 web/dist/*
 ._*
 .DS_Store
+yarn.lock
+package-lock.json
+dist/*
+webpack_stats.html
+
