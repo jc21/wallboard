@@ -24,9 +24,6 @@ pipeline {
         ansiColor('xterm') {
           withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-jc21-s3', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 
-            sh 'docker run --rm -v $(pwd)/dist:/app -w /app jc21/ci-tools s3cmd --access_key=${AWS_ACCESS_KEY_ID} --secret_key=${AWS_SECRET_ACCESS_KEY} -v -f -P -m text/html sync "index.html" "s3://${S3_BUCKET}/"'
-            sh 'docker run --rm -v $(pwd)/dist:/app -w /app jc21/ci-tools s3cmd --access_key=${AWS_ACCESS_KEY_ID} --secret_key=${AWS_SECRET_ACCESS_KEY} -v -f -P -m application/json sync "version.json" "s3://${S3_BUCKET}/"'
-
             sh '''
             cd dist
 
@@ -49,6 +46,9 @@ pipeline {
                 rc=$?; if [ $rc != 0 ]; then exit $rc; fi
             done
             '''
+
+            sh 'docker run --rm -v $(pwd)/dist:/app -w /app jc21/ci-tools s3cmd --access_key=${AWS_ACCESS_KEY_ID} --secret_key=${AWS_SECRET_ACCESS_KEY} -v -f -P -m text/html sync "index.html" "s3://${S3_BUCKET}/"'
+            sh 'docker run --rm -v $(pwd)/dist:/app -w /app jc21/ci-tools s3cmd --access_key=${AWS_ACCESS_KEY_ID} --secret_key=${AWS_SECRET_ACCESS_KEY} -v -f -P -m application/json sync "version.json" "s3://${S3_BUCKET}/"'
           }
         }
       }
