@@ -10,11 +10,11 @@ let data = [
         timezone: 'Singapore'
     },
     {
-        name:     'West Coast',
-        timezone: 'America/Los_Angeles'
+        name:     'Perth',
+        timezone: 'Australia/Perth'
     },
     {
-        name:     'East Coast',
+        name:     'New York',
         timezone: 'America/New_York'
     }
 ];

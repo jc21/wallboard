@@ -23,9 +23,6 @@ module.exports = Mn.View.extend({
         let meridian = tz.format('a');
         let sec_even = sec % 2 === 0;
 
-        console.log('SEC: ', sec);
-        console.log('EVEN: ', sec_even);
-
         this.ui.time
             .removeClass('meridian-am meridian-pm workhours sec-even')
             .addClass('meridian-' + meridian + (sec_even ? ' sec-even' : ''));
