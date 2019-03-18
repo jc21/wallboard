@@ -10,8 +10,8 @@ let data = [
         timezone: 'Singapore'
     },
     {
-        name:     'Perth',
-        timezone: 'Australia/Perth'
+        name:     'UTC',
+        timezone: 'UTC'
     },
     {
         name:     'New York',

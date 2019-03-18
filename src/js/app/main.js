@@ -79,10 +79,10 @@ const App = Mn.Application.extend({
 
     versionCheck: function () {
         let view = this;
-        // TODO
+
         return new Promise(function (resolve, reject) {
             $.ajax({
-                url:         'version.json',
+                url:         'version.json?t=' + Date.now(),
                 type:        'get',
                 dataType:    'json',
                 crossDomain: true,
