@@ -1,10 +1,11 @@
-const path              = require('path');
-const webpack           = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const Visualizer        = require('webpack-visualizer-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const getTime           = require('date-fns/get_time');
-const PACKAGE           = require('./package.json');
+const path                 = require('path');
+const webpack              = require('webpack');
+const HtmlWebpackPlugin    = require('html-webpack-plugin');
+const Visualizer           = require('webpack-visualizer-plugin');
+const CopyWebpackPlugin    = require('copy-webpack-plugin');
+const getTime              = require('date-fns/get_time');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const PACKAGE              = require('./package.json');
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
@@ -30,6 +31,14 @@ module.exports = {
                 loader: 'ejs-loader'
             },
             {
+                test: /\.scss$/,
+                use:  [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader'
+                ]
+            }/*,
+            {
                 test: /\.s?css$/,
                 use:  [
                     {
@@ -45,7 +54,7 @@ module.exports = {
                         loader: 'sass-loader'
                     }
                 ]
-            }
+            }*/
         ]
     },
     plugins: [
@@ -78,6 +87,10 @@ module.exports = {
                 version:    PACKAGE.version,
                 build_time: getTime(new Date())
             }
+        }),
+        new MiniCssExtractPlugin({
+            filename:      'css/[name].css',
+            chunkFilename: 'css/[id].css'
         }),
         new CopyWebpackPlugin([{
             from:   'images',
