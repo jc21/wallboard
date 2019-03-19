@@ -2,7 +2,7 @@
   "presets": [
     ["env", {
       "targets": {
-        "browsers": ["Chrome >= 65"]
+        "browsers": ["Chrome >= 64"]
       },
       "debug": false,
       "modules": false,
